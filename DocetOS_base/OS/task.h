@@ -35,9 +35,8 @@ typedef struct {
 	   runnable, or whatever.  Only one bit of this field is currently defined (see the #define
 	   below), so you can use the remaining 31 bits for anything you like. */
 	uint32_t volatile state;
-	/* The remaining fields are provided for expandability.  None of them have a dedicated
-	   purpose, but their names might imply a use.  Feel free to use these fields for anything
-	   you like. */
+	/* This field takes a value between 1 and 3, with 1 being the highest priority level, and
+		 3 being the lowest. As the names might suggest higher priority tasks always run first*/
 	uint32_t volatile priority;
 	uint32_t volatile data;
 } OS_TCB_t;
