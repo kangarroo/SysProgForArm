@@ -1,4 +1,5 @@
 #include "fixedPriorityScheduler.h"
+#include <stdio.h>
 
 typedef struct {
 	OS_TCB_t *current_task;
@@ -8,6 +9,7 @@ typedef struct {
 typedef struct {
 	task_list_t *task_list;
 	task_list_t *task_list_head;//Pointer to the head of the linked list
+	uint32_t init;
 	void *next_priority_list;
 } priority_list_t;
 
@@ -22,20 +24,23 @@ static priority_list_t *low_priority;
 static void OS_initialiseScheduler (void){
 	high_priority ->task_list->current_task = NULL; //Initialises the task list
 	high_priority ->next_priority_list = middle_priority;//links to next lowest priority level
+	high_priority ->init = 1;
 	middle_priority ->task_list->current_task = NULL;
 	middle_priority ->next_priority_list = low_priority;
 	low_priority ->task_list->current_task = NULL;
 	low_priority ->next_priority_list = NULL;//If no tasks are scheduled, the system should idle.
 }
 
+/*Add Task Callback*/
+/*Adds a task to the scheduler*/
 static void fixedPriority_addTask(OS_TCB_t * const tcb){
-	if(high_priority->next_priority_list != middle_priority){ //Checks if the scheduler structure has been initalised
+	printf("%d\n",high_priority->init);
+	if(high_priority->init != 1){ //Checks if the scheduler structure has been initalised
 		OS_initialiseScheduler();
 	}
-	
 	task_list_t *current_list; //Container for the task list, that needs tasks added
 	task_list_t *current_head; //Container for the head of the task lists.
-	if(tcb->priority == 1){ //Add High priority tasks
+	if(tcb->priority == 1){ //Add High priority tasks	
 		current_list = high_priority->task_list;
 		current_head = high_priority->task_list_head;
 	} else if (tcb->priority == 2){ //Add Middle priority tasks
@@ -64,18 +69,20 @@ static void fixedPriority_addTask(OS_TCB_t * const tcb){
 	}
 }
 
+/*Task Exit Callback*/
+/*Removes a task from the scheduler once it is completed*/
 static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 	task_list_t *current_list; //Container for the task list, that needs tasks added
 	task_list_t *current_head; //Container for the head of the task lists.
 	if(tcb->priority == 1){ //Add High priority tasks
-		current_list = high_priority->task_list;
-		current_head = high_priority->task_list_head;
+		*current_list = *high_priority->task_list;
+		*current_head = *high_priority->task_list_head;
 	} else if (tcb->priority == 2){ //Add Middle priority tasks
-		current_list = middle_priority->task_list;
-		current_head = middle_priority->task_list_head;
+		*current_list = *middle_priority->task_list;
+		*current_head = *middle_priority->task_list_head;
 	} else { //Add Low Priority tasks
-		current_list = low_priority->task_list;
-		current_head = low_priority->task_list_head;
+		*current_list = *low_priority->task_list;
+		*current_head = *low_priority->task_list_head;
 	}
 	
 	if(current_head->current_task == tcb){
@@ -93,5 +100,27 @@ static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 	}
 }
 
+static OS_TCB_t const * fixedPriority_scheduler(void){
+	//Clear yeild flag
+	OS_currentTCB()->state &= ~TASK_STATE_YIELD;
+	//Check high priority task list
+	priority_list_t *current_priority_list = high_priority;
+	//Iterate through the list
+	while(current_priority_list != NULL){
+		task_list_t *current_task_list = current_priority_list->task_list_head;
+		while(current_task_list->next_task != NULL){
+			return current_task_list->current_task;
+		}
+		current_priority_list = current_priority_list->next_priority_list;
+	}
+	return OS_idleTCB_p;
+}
+
+OS_Scheduler_t const fixedPriorityScheduler = {
+	.preemptive = 1,
+	.scheduler_callback = fixedPriority_scheduler,
+	.addtask_callback = fixedPriority_addTask,
+	.taskexit_callback = fixedPriority_taskExit
+};
 
 
