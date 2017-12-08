@@ -1,45 +1,25 @@
 #include "fixedPriorityScheduler.h"
 #include <stdio.h>
 /*Fixed Priority Scheduler*/
-/*This Scheduler is based on 3 double linked list queues, linked together
-to make 3 different priorities High, Middle, Low. These lists are chosen by
-the priority value in the TCB which is a value from 1-3 with 1 being the highest
-priority*/
+/*The scheduler works by having an array of linked lists which all represent a priority
+which is stored in the TCB structure. The TCB structure also stores the next and previous
+addresses for the linked lists*/
 
-/*Task List*/
-/*Double linked list to hold the tasks for a particular priority level*/
-typedef struct {
-	OS_TCB_t * current_task;
-	void *next_task;
-	void *prev_task;
-} task_list_t;
+
 
 /*Priority List*/
-/*Structure to hold the Task Lists for a given priority level*/
+
 typedef struct {
-	task_list_t *head;
-	task_list_t *tail;
+	OS_TCB_t *head;
+	OS_TCB_t *tail;
 } priority_list_t;
 
 static void fixedPriority_addTask(OS_TCB_t * const tcb);
 static void fixedPriority_taskExit(OS_TCB_t * const tcb);
 static OS_TCB_t const * fixedPriority_scheduler(void);
-static void add_task (priority_list_t *priority, OS_TCB_t * const tcb);
-static void remove_task(priority_list_t *priority, OS_TCB_t * const tcb);
 
-//static scheduler_t fP_Scheduler;
-static priority_list_t high = {
-	.head = 0,
-	.tail = 0
-};
-static priority_list_t middle = {
-	.head = 0,
-	.tail = 0
-};
-static priority_list_t low = {
-	.head = 0,
-	.tail = 0
-};
+//Container for the 
+priority_list_t priority[MAX_PRIORITY] = {0};
 
 OS_Scheduler_t const fixedPriorityScheduler = {
 	.preemptive = 1,
@@ -49,82 +29,48 @@ OS_Scheduler_t const fixedPriorityScheduler = {
 };
 
 /*Add Task Callback*/
-/*Enqueues a task on to the relevant queue as dictated by the TCB priority value*/
+
 static void fixedPriority_addTask(OS_TCB_t * const tcb){
-//	if(fP_Scheduler.init != 1){
-//		OS_initialiseScheduler(&fP_Scheduler);
-//	}
-		
-	if(tcb->priority == 1){
-		//printf("HIGH\r\n");
-		add_task(&high, tcb);
-	} else if (tcb->priority == 2){
-		//printf("MIDDLE\r\n");
-		add_task(&middle, tcb);
-	} else {
-		//printf("LOW\r\n");
-		add_task(&low, tcb);
-	}
+		priority_list_t *current_list = &priority[tcb->priority];
+		if(current_list->head == 0){
+			tcb->next = 0;
+			tcb->prev = 0;
+			current_list->head = tcb;
+			current_list->tail = tcb;
+		} else {
+			OS_TCB_t *current_head = current_list->head;
+			current_head->prev = tcb;
+			tcb->next = current_head;
+			tcb->prev = 0;
+			current_list->head = tcb;
+		}
 }
-
-/*Adds tasks to the head of the queue*/
-static void add_task (priority_list_t *priority, OS_TCB_t * const tcb){
-	task_list_t new_task;
-	if(priority->head == 0){
-		new_task.current_task = tcb;
-		new_task.next_task = 0;
-		new_task.prev_task = 0;
-		priority->head = &new_task;
-		priority->tail = &new_task;
-	} else {
-		new_task.current_task = tcb;
-		priority->head->prev_task = &new_task;
-		new_task.next_task = (task_list_t*)&priority->head;
-		new_task.prev_task = 0;
-		priority->head = &new_task;
-	}
-	
-}
-
 
 /*Task Exit Callback*/
-/*Removes a task from the scheduler once it is completed*/
+
 static void fixedPriority_taskExit(OS_TCB_t * const tcb){
-	if(tcb->priority == 1){
-		remove_task(&high, tcb);
-	} else if (tcb->priority == 2){
-		remove_task(&middle, tcb);
+	priority_list_t *current_list = &priority[tcb->priority];
+	if(current_list->head == current_list->tail){
+		current_list->head = 0;
+		current_list->tail = 0;
 	} else {
-		remove_task(&low, tcb);
+		OS_TCB_t *new_tail = current_list->tail->prev;
+		new_tail->next = 0;
+		current_list->tail = new_tail; 
 	}
 }
 
-static void remove_task(priority_list_t *priority, OS_TCB_t * const tcb){
-	if(priority->head == priority->tail){
-		priority->head = 0;
-		priority->tail = 0;
-	} else {
-		task_list_t *new_tail = (task_list_t*)priority->tail->prev_task;
-		new_tail->next_task = 0;
-		priority->tail = new_tail;
-	}
-}
+
+
+/*Fixed Priority Scheduler*/
 
 static OS_TCB_t const * fixedPriority_scheduler(void){
 	OS_currentTCB()->state &= ~TASK_STATE_YIELD;
-	//Check for HIGH Priority Tasks
-	while((high.head) != 0){
-		return high.tail->current_task;
-	}
-	while((middle.head) != 0){
-		return middle.tail->current_task;
-	}
-	while((low.head) != 0){
-		return low.tail->current_task;
+	for(int i = 0;i < (MAX_PRIORITY);i++){
+		priority_list_t *current_list = &priority[i];
+		if(current_list->tail != 0){
+			return current_list->tail;
+		}
 	}
 	return OS_idleTCB_p;
 }
-
-
-
-

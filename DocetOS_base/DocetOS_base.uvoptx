@@ -160,9 +160,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>71</LineNumber>
+          <LineNumber>124</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134218970</Address>
+          <Address>134219122</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -171,44 +171,12 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\fixedPriorityScheduler.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\DocetOS_base\fixedPriorityScheduler.c\71</Expression>
+          <Expression>\\DocetOS_base\fixedPriorityScheduler.c\124</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>112</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134219144</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\fixedPriorityScheduler.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\DocetOS_base\fixedPriorityScheduler.c\112</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>73</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>.\fixedPriorityScheduler.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>114</LineNumber>
+          <LineNumber>75</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>

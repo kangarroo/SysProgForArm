@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 
 /**
  * HardFaultHandler_C:
@@ -32,7 +33,8 @@ void HardFault_HandlerC(unsigned long *hardfault_args) {
 	stacked_lr  = ((uint32_t)hardfault_args[5]) ;
 	stacked_pc  = ((uint32_t)hardfault_args[6]) ;
 	stacked_psr = ((uint32_t)hardfault_args[7]) ;
-
+	
+	printf("\r\n\nHARD FAULT\n");
 	// Configurable Fault Status Register
 	// Consists of MMSR, BFSR and UFSR
 	_CFSR = (*((volatile uint32_t *)(0xE000ED28))) ;   
