@@ -59,18 +59,18 @@ int main(void) {
 	OS_initialiseTCB(&TCB2, stack2+64, task2,NULL, 2);//B
 	OS_initialiseTCB(&TCB3, stack3+64, task3,NULL, 3);//C
 	OS_initialiseTCB(&TCB4, stack4+64, task4,NULL, 2);//D
-	OS_initialiseTCB(&TCB5, stack5+64, task5,NULL, 2);//E
-	OS_initialiseTCB(&TCB6, stack6+64, task6,NULL, 3);//F
+	OS_initialiseTCB(&TCB5, stack5+64, task5,NULL, 3);//E
+	OS_initialiseTCB(&TCB6, stack6+64, task6,NULL, 2);//F
 
 
 	/* Initialise and start the OS */
 	OS_init(&fixedPriorityScheduler);
 	OS_addTask(&TCB1);
 	OS_addTask(&TCB2);
-	OS_addTask(&TCB3);
-	OS_addTask(&TCB4);
-	OS_addTask(&TCB5);
-	OS_addTask(&TCB6);
+	//OS_addTask(&TCB3);
+	//OS_addTask(&TCB4);
+	//OS_addTask(&TCB5);
+	//OS_addTask(&TCB6);
 	
 	OS_start();
 }
