@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Flash\DocetOS_base.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Flash\DocetOS_base.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Fri Dec 08 18:04:32 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Fri Dec 08 19:09:55 2017
 <BR><P>
 <H3>Maximum Stack Usage =        192 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -878,15 +878,21 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[69]"></a>fixedPriority_addTask</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, fixedpriorityscheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
 <P><STRONG><a name="[6a]"></a>fixedPriority_taskExit</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, fixedpriorityscheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
-<P><STRONG><a name="[68]"></a>fixedPriority_scheduler</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, fixedpriorityscheduler.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fixedPriority_scheduler
+<P><STRONG><a name="[68]"></a>fixedPriority_scheduler</STRONG> (Thumb, 60 bytes, Stack size 16 bytes, fixedpriorityscheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = fixedPriority_scheduler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
+<BR>[Calls]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_taskExit
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_addTask
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>

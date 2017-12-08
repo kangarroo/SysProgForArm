@@ -8,7 +8,7 @@ addresses for the linked lists*/
 
 
 /*Priority List*/
-
+//Container for the Priority lists
 typedef struct {
 	OS_TCB_t *head;
 	OS_TCB_t *tail;
@@ -18,7 +18,7 @@ static void fixedPriority_addTask(OS_TCB_t * const tcb);
 static void fixedPriority_taskExit(OS_TCB_t * const tcb);
 static OS_TCB_t const * fixedPriority_scheduler(void);
 
-//Container for the 
+
 priority_list_t priority[MAX_PRIORITY] = {0};
 
 OS_Scheduler_t const fixedPriorityScheduler = {
@@ -29,15 +29,19 @@ OS_Scheduler_t const fixedPriorityScheduler = {
 };
 
 /*Add Task Callback*/
-
+/*Adds a TCB to the scheduler with respect to the priority level set in the TCB*/
 static void fixedPriority_addTask(OS_TCB_t * const tcb){
 		priority_list_t *current_list = &priority[tcb->priority];
 		if(current_list->head == 0){
+			/*If the list is empty, set the head and tail to the new TCB address
+			and set TCB Next and Previous pointers to 0*/
 			tcb->next = 0;
 			tcb->prev = 0;
 			current_list->head = tcb;
 			current_list->tail = tcb;
 		} else {
+			/*If there is already data in the structure, set new tcb as head poinitng
+			to the old head as previous*/
 			OS_TCB_t *current_head = current_list->head;
 			current_head->prev = tcb;
 			tcb->next = current_head;
@@ -47,7 +51,7 @@ static void fixedPriority_addTask(OS_TCB_t * const tcb){
 }
 
 /*Task Exit Callback*/
-
+/**/
 static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 	priority_list_t *current_list = &priority[tcb->priority];
 	if(current_list->head == current_list->tail){
@@ -69,6 +73,9 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 	for(int i = 0;i < (MAX_PRIORITY);i++){
 		priority_list_t *current_list = &priority[i];
 		if(current_list->tail != 0){
+			OS_TCB_t *next_task = current_list->tail; 
+			fixedPriority_taskExit(next_task);
+			fixedPriority_addTask(next_task);
 			return current_list->tail;
 		}
 	}
