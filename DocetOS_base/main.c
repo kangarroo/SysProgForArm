@@ -5,39 +5,37 @@
 #include "fixedPriorityScheduler.h"
 #include "stm32f4xx.h"
 void task1(void const *const args) {
-	for (int i = 0; i < 100; ++i) {
+	for (int i = 0; i < 10; ++i) {
 		printf("A");
-		OS_Sleep(1);
-		printf(" HELLO WORLD");
 	}
 }
 
 void task2(void const *const args) {
-	for (int i = 0; i < 200; ++i) {
+	for (int i = 0; i < 20; ++i) {
 		printf("B");
 	}
 }
 
 void task3(void const *const args) {
-	for (int i = 0; i < 100; ++i) {
+	for (int i = 0; i < 10; ++i) {
 		printf("C");
 	}
 }
 
 void task4(void const *const args) {
-	for (int i = 0; i < 200; ++i) {
+	for (int i = 0; i < 20; ++i) {
 		printf("D");
 	}
 }
 
 void task5(void const *const args) {
-	for (int i = 0; i < 100; ++i) {
+	for (int i = 0; i < 10; ++i) {
 		printf("E");
 	}
 }
 
 void task6(void const *const args) {
-	for (int i = 0; i < 200; ++i) {
+	for (int i = 0; i < 20; ++i) {
 		printf("F");
 	}
 }

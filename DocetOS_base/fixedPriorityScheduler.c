@@ -5,8 +5,6 @@
 which is stored in the TCB structure. The TCB structure also stores the next and previous
 addresses for the linked lists*/
 
-
-
 /*Priority List*/
 //Container for the Priority lists
 typedef struct {
@@ -74,6 +72,7 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 		priority_list_t *current_list = &priority[i];
 		if(current_list->tail != 0){
 			OS_TCB_t *next_task = current_list->tail; 
+			OS_TCB_t *test = current_list->tail; 
 			fixedPriority_taskExit(next_task);
 			fixedPriority_addTask(next_task);
 			//Checks if sleep bit is set
