@@ -68,7 +68,9 @@ void OS_start() {
 /* Initialises a task control block (TCB) and its associated stack.  See os.h for details. */
 void OS_initialiseTCB(OS_TCB_t * TCB, uint32_t * const stack, void (* const func)(void const * const), void const * const data, uint32_t priority) {
 	TCB->sp = stack - (sizeof(OS_StackFrame_t) / sizeof(uint32_t));
-	TCB->state = TCB->data = 0;
+	TCB->state = TCB->data= 0;
+	TCB->next = TCB->prev = 0;
+	TCB->sleep_time = 0;
 	TCB->priority = priority;
 	OS_StackFrame_t *sf = (OS_StackFrame_t *)(TCB->sp);
 	memset(sf, 0, sizeof(OS_StackFrame_t));

@@ -35,16 +35,19 @@ typedef struct OS_TCB_t{
 	   runnable, or whatever.  Only one bit of this field is currently defined (see the #define
 	   below), so you can use the remaining 31 bits for anything you like. */
 	uint32_t volatile state;
-	/* This field takes a value between 1 and 3, with 1 being the highest priority level, and
-		 3 being the lowest. As the names might suggest higher priority tasks always run first*/
+	/* The priority field takes a value between 0 and MAX_PRIORITY, where 0 is the highest 
+	priority task. */
 	uint32_t volatile priority;
 	uint32_t volatile data;
 	
 	struct OS_TCB_t *next; //Container for the next task
 	struct OS_TCB_t *prev; //Container for the previous task
+	
+	uint32_t sleep_time;
 } OS_TCB_t;
 
 /* Constants that define bits in a thread's 'state' field. */
 #define TASK_STATE_YIELD    (1UL << 0) // Bit zero is the 'yield' flag
+#define TASK_STATE_SLEEP		(1UL << 1) // Bit 1 is the 'sleep' flag
 
 #endif /* _TASK_H_ */

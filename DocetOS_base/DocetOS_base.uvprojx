@@ -410,11 +410,6 @@
               <FileType>1</FileType>
               <FilePath>.\fixedPriorityScheduler.c</FilePath>
             </File>
-            <File>
-              <FileName>fixedPriorityScheduler.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\fixedPriorityScheduler.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -439,6 +434,26 @@
               <FileName>hardfault.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\utils\hardfault.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>OS Utilities</GroupName>
+          <Files>
+            <File>
+              <FileName>mutex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\mutex.c</FilePath>
+            </File>
+            <File>
+              <FileName>sleep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\sleep.c</FilePath>
+            </File>
+            <File>
+              <FileName>sleep.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\sleep.h</FilePath>
             </File>
           </Files>
         </Group>

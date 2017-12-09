@@ -76,8 +76,19 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 			OS_TCB_t *next_task = current_list->tail; 
 			fixedPriority_taskExit(next_task);
 			fixedPriority_addTask(next_task);
-			return current_list->tail;
+			//Checks if sleep bit is set
+			if(current_list->tail->state & TASK_STATE_SLEEP){
+				if(current_list->tail->sleep_time <= OS_elapsedTicks()){
+					//If set & time exceeded, clear sleep bit and return TCB, otherwise
+					//return idle tcb
+					current_list->tail->state &= ~TASK_STATE_SLEEP;
+					return current_list->tail;
+				}
+			} else {
+				return current_list->tail;
+			}
 		}
 	}
 	return OS_idleTCB_p;
 }
+
