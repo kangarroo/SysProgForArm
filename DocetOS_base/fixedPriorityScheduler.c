@@ -53,6 +53,7 @@ static void fixedPriority_addTask(OS_TCB_t * const tcb){
 /*This function removes a task from the scheduler this is achieved through
 if the list only has 1 item setting the head and tail of the list to 0, and otherwise
 setting the previous element in the list as the tail*/
+/*Note I think the issue is still that the */
 static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 	priority_list_t *current_list = &priority[tcb->priority];
 	OS_TCB_t *current_task = current_list->tail;
@@ -71,14 +72,13 @@ static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 						//If the current element is the tail, the set the previous element as the tail
 						current_list->tail = current_list->tail->prev;
 						current_list->tail->next = 0;
-					} if(current_task->prev == 0){
+					} else if(current_task->prev == 0){
 						//Remove TCB from head of list
 						current_list->head = current_list->head->next;
 						current_list->head->prev = 0;
 					} else {
 						//If the current element is in the middle of the list, the next and previous
 						//of the surrounding elements need to be updated
-
 						current_task->prev->next = current_task->next;
 						current_task->next->prev = current_task->prev;
 					}
@@ -100,9 +100,7 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 		priority_list_t *current_list = &priority[i];
 		if(current_list->tail != 0){
 			OS_TCB_t *next_task = current_list->tail;
-			//preemptive_tasks(next_task);
-				fixedPriority_taskExit(next_task);
-				fixedPriority_addTask(next_task);
+			preemptive_tasks(next_task);	
 			//Checks if sleep bit is set
 			if(current_list->tail->state & TASK_STATE_SLEEP){
 				if(current_list->tail->sleep_time <= OS_elapsedTicks()){
@@ -118,7 +116,9 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 	}
 	return OS_idleTCB_p;
 }
-
+/*Preemptive Tasks*/
+/*This Moves the tail of the list to the head to allow the 
+scheduler to be preemptive*/
 static void preemptive_tasks (OS_TCB_t * const tcb){
 	fixedPriority_taskExit(tcb);
 	fixedPriority_addTask(tcb);

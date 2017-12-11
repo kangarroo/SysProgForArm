@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Flash\DocetOS_base.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Flash\DocetOS_base.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Mon Dec 11 17:05:42 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Mon Dec 11 17:56:26 2017
 <BR><P>
 <H3>Maximum Stack Usage =        192 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -365,7 +365,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[77]"></a>main</STRONG> (Thumb, 158 bytes, Stack size 8 bytes, main.o(.text))
+<P><STRONG><a name="[77]"></a>main</STRONG> (Thumb, 154 bytes, Stack size 8 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136 + Unknown Stack Size
 <LI>Call Chain = main &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -378,11 +378,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[8d]"></a>OS_currentTCB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
+<P><STRONG><a name="[8e]"></a>OS_currentTCB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
 </UL>
 
-<P><STRONG><a name="[8e]"></a>OS_elapsedTicks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
+<P><STRONG><a name="[8f]"></a>OS_elapsedTicks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
 </UL>
 
@@ -880,34 +880,35 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[69]"></a>fixedPriority_addTask</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, fixedpriorityscheduler.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
+<BR><BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
-<P><STRONG><a name="[6a]"></a>fixedPriority_taskExit</STRONG> (Thumb, 102 bytes, Stack size 8 bytes, fixedpriorityscheduler.o(.text))
+<P><STRONG><a name="[6a]"></a>fixedPriority_taskExit</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, fixedpriorityscheduler.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fixedPriority_taskExit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
+<BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
-<P><STRONG><a name="[68]"></a>fixedPriority_scheduler</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, fixedpriorityscheduler.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = fixedPriority_scheduler &rArr; fixedPriority_taskExit
+<P><STRONG><a name="[8d]"></a>preemptive_tasks</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, fixedpriorityscheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = preemptive_tasks &rArr; fixedPriority_taskExit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_elapsedTicks
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_taskExit
+<BR>[Calls]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_taskExit
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_addTask
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
 </UL>
-<BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
-</UL>
-<P><STRONG><a name="[8f]"></a>preemptive_tasks</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, fixedpriorityscheduler.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_taskExit
-<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_addTask
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
 </UL>
 
+<P><STRONG><a name="[68]"></a>fixedPriority_scheduler</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, fixedpriorityscheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = fixedPriority_scheduler &rArr; preemptive_tasks &rArr; fixedPriority_taskExit
+</UL>
+<BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_elapsedTicks
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
+</UL>
 <P><STRONG><a name="[94]"></a>__NVIC_SetPriority</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, os.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __NVIC_SetPriority
 </UL>
