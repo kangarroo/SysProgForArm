@@ -160,9 +160,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>79</LineNumber>
+          <LineNumber>102</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134219088</Address>
+          <Address>134219138</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -171,12 +171,12 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\fixedPriorityScheduler.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\DocetOS_base\fixedPriorityScheduler.c\79</Expression>
+          <Expression>\\DocetOS_base\fixedPriorityScheduler.c\102</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>70</LineNumber>
+          <LineNumber>107</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
