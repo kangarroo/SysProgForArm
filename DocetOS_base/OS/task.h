@@ -49,5 +49,7 @@ typedef struct OS_TCB_t{
 /* Constants that define bits in a thread's 'state' field. */
 #define TASK_STATE_YIELD    (1UL << 0) // Bit zero is the 'yield' flag
 #define TASK_STATE_SLEEP		(1UL << 1) // Bit 1 is the 'sleep' flag
+#define TASK_STATE_WAIT			(1UL << 2) // Bit 2 is the 'wait' flag
+#define TASK_STATE_NOTIFY		(1UL << 3) // Bit 3 is the 'notify' flag
 
 #endif /* _TASK_H_ */

@@ -56,6 +56,9 @@ void OS_init(OS_Scheduler_t const * scheduler) {
 	ASSERT(_scheduler->scheduler_callback);
 	ASSERT(_scheduler->addtask_callback);
 	ASSERT(_scheduler->taskexit_callback);
+	ASSERT(_scheduler->wait_callback);
+	ASSERT(_scheduler->notify_callback);
+
 }
 
 /* Starts the OS and never returns. */
@@ -112,6 +115,14 @@ void _svc_OS_addTask(_OS_SVC_StackFrame_t const * const stack) {
 	_scheduler->addtask_callback((OS_TCB_t *)stack->r0);
 }
 
+void _svc_OS_wait(_OS_SVC_StackFrame_t const * const stack){
+	_scheduler->wait_callback((OS_TCB_t *)stack->r0);
+}
+
+void _svc_OS_notify(_OS_SVC_StackFrame_t const * const stack){
+	_scheduler->notify_callback((OS_TCB_t *)stack->r0);
+}
+
 /* SVC handler to invoke the scheduler (via a callback) from PendSV */
 OS_TCB_t const * _OS_scheduler() {
 	return _scheduler->scheduler_callback();
@@ -123,4 +134,6 @@ void _svc_OS_task_exit(void) {
 	_scheduler->taskexit_callback(_currentTCB);
 	SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
 }
+
+
 

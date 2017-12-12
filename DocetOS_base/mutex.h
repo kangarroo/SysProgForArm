@@ -12,6 +12,7 @@ typedef struct {
 }OS_mutex_t;
 
 void OS_initialiseMutex(OS_mutex_t *mutex);
-
+void OS_mutex_aquire(OS_mutex_t *mutex);
+void OS_mutex_release(OS_mutex_t *mutex);
 
 #endif /*_MUTEX_H_*/

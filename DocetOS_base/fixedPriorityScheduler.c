@@ -1,5 +1,6 @@
 #include "fixedPriorityScheduler.h"
 #include <stdio.h>
+#include "stm32f4xx.h"
 /*Fixed Priority Scheduler*/
 /*The scheduler works by having an array of linked lists which all represent a priority
 which is stored in the TCB structure. The TCB structure also stores the next and previous
@@ -16,22 +17,32 @@ static void fixedPriority_addTask(OS_TCB_t * const tcb);
 static void fixedPriority_taskExit(OS_TCB_t * const tcb);
 static OS_TCB_t const * fixedPriority_scheduler(void);
 static void preemptive_tasks (OS_TCB_t * const tcb);
-
+static void fixedPriority_wait(void * const reason);
+static void fixedPriority_notify(void * const reason);
+static void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb);
+static void remove_task_from_list (priority_list_t *current_list, OS_TCB_t * const tcb);
 
 priority_list_t priority[MAX_PRIORITY] = {0};
+priority_list_t wait_list = {0};
 
 OS_Scheduler_t const fixedPriorityScheduler = {
 	.preemptive = 1,
 	.scheduler_callback = fixedPriority_scheduler,
 	.addtask_callback = fixedPriority_addTask,
-	.taskexit_callback = fixedPriority_taskExit
+	.taskexit_callback = fixedPriority_taskExit,
+	.wait_callback = fixedPriority_wait,
+	.notify_callback = fixedPriority_notify
 };
 
 /*Add Task Callback*/
 /*Adds a TCB to the scheduler with respect to the priority level set in the TCB*/
 static void fixedPriority_addTask(OS_TCB_t * const tcb){
 		priority_list_t *current_list = &priority[tcb->priority];
-		if(current_list->head == 0){
+		add_task_to_list(current_list,tcb);
+}
+
+static void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb){
+			if(current_list->head == 0){
 			/*If the list is empty, set the head and tail to the new TCB address
 			and set TCB Next and Previous pointers to 0*/
 			tcb->next = 0;
@@ -56,6 +67,10 @@ setting the previous element in the list as the tail*/
 /*Note I think the issue is still that the */
 static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 	priority_list_t *current_list = &priority[tcb->priority];
+	remove_task_from_list(current_list,tcb);
+}
+
+static void remove_task_from_list (priority_list_t *current_list, OS_TCB_t * const tcb){
 	OS_TCB_t *current_task = current_list->tail;
 	
 	if(current_list->head == current_list->tail){
@@ -90,8 +105,6 @@ static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 	}
 }
 
-
-
 /*Fixed Priority Scheduler*/
 /*This function works by iterating through the prioirty array*/
 static OS_TCB_t const * fixedPriority_scheduler(void){
@@ -102,11 +115,11 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 			OS_TCB_t *next_task = current_list->tail;
 			preemptive_tasks(next_task);	
 			//Checks if sleep bit is set
-			if(current_list->tail->state & TASK_STATE_SLEEP){
-				if(current_list->tail->sleep_time <= OS_elapsedTicks()){
+			if(next_task->state & TASK_STATE_SLEEP){
+				if(next_task->sleep_time <= OS_elapsedTicks()){
 					//If set & time exceeded, clear sleep bit and return TCB, otherwise
 					//return idle tcb
-					current_list->tail->state &= ~TASK_STATE_SLEEP;
+					next_task->state &= ~TASK_STATE_SLEEP;
 					return next_task;
 				}
 			} else {
@@ -124,4 +137,32 @@ static void preemptive_tasks (OS_TCB_t * const tcb){
 	fixedPriority_addTask(tcb);
 }
 
+/*Wait Callback*/
+/*This function sets the reason code as the data field in the TCB
+and then removes it form the schedule, and adds it till the wait list.
+The function is called upon creation of a mutex*/
+static void fixedPriority_wait(void * const reason){
+	OS_TCB_t *current_TCB = OS_currentTCB();
+	current_TCB->data = (uint32_t) reason;
+	fixedPriority_taskExit(current_TCB);
+	add_task_to_list(&wait_list,current_TCB);
+	SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
+}
 
+/*Notify Callback*/
+/*This function removes tasks from the wait list once the mutex on
+them is freed, they are then added to the scheduler. The function is 
+called once a mutex has been released*/
+static void fixedPriority_notify(void * const reason){
+	priority_list_t *current_list = &wait_list;
+	OS_TCB_t *current_task = current_list->tail;
+	while(current_task != 0){
+		if(current_task->data == (uint32_t)reason){
+			current_task->data = 0;
+			remove_task_from_list(&wait_list,current_task);
+			fixedPriority_addTask(current_task);
+			return;
+		}
+		current_task = current_task->prev;
+	}
+}
