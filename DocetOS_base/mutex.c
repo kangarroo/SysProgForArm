@@ -3,6 +3,8 @@
 void OS_initialiseMutex(OS_mutex_t *mutex){
 	mutex->counter = 0;
 	mutex->task = 0;
+	mutex->list->head = 0;
+	mutex->list->tail = 0;
 }
 
 void OS_mutex_aquire(OS_mutex_t *mutex){
@@ -14,7 +16,7 @@ void OS_mutex_aquire(OS_mutex_t *mutex){
 				break;
 			}
 		}else if(LDREXW_val != (uint32_t)OS_currentTCB()){
-				OS_wait(&mutex->task);
+				OS_wait(mutex);
 		}
 		
 	}
@@ -29,7 +31,7 @@ void OS_mutex_release(OS_mutex_t *mutex){
 		mutex->counter--;
 		if(mutex->counter == 0){
 			mutex->task = 0;
-			OS_notify(&mutex->task);
+			OS_notify(mutex);
 		}
 		OS_yield();
 	}
