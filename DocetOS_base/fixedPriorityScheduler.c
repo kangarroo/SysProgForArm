@@ -15,8 +15,8 @@ static void fixedPriority_addTask(OS_TCB_t * const tcb);
 static void fixedPriority_taskExit(OS_TCB_t * const tcb);
 static OS_TCB_t const * fixedPriority_scheduler(void);
 static void preemptive_tasks (OS_TCB_t * const tcb);
-static void fixedPriority_wait(OS_mutex_t * const reason);
-static void fixedPriority_notify(OS_mutex_t * const reason);
+static void fixedPriority_wait(priority_list_t * const reason);
+static void fixedPriority_notify(priority_list_t * const reason);
 
 
 priority_list_t priority[MAX_PRIORITY] = {0};
@@ -88,12 +88,14 @@ static void preemptive_tasks (OS_TCB_t * const tcb){
 /*This function sets the reason code as the data field in the TCB
 and then removes it form the schedule, and adds it till the wait list.
 The function is called upon creation of a mutex*/
-static void fixedPriority_wait(OS_mutex_t * const reason){
+static void fixedPriority_wait(priority_list_t * const reason){
 	OS_TCB_t *current_TCB = OS_currentTCB();
 	//current_TCB->data = (uint32_t) reason;
 	//fixedPriority_taskExit(current_TCB);
 	remove_task_from_list(&priority[current_TCB->priority],current_TCB);
-	add_task_to_list(reason->list,current_TCB);
+	current_TCB->next = 0;
+	current_TCB->prev = 0;
+	add_task_to_list(reason,current_TCB);
 	SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
 }
 
@@ -101,26 +103,7 @@ static void fixedPriority_wait(OS_mutex_t * const reason){
 /*This function removes tasks from the wait list once the mutex on
 them is freed, they are then added to the scheduler. The function is 
 called once a mutex has been released*/
-static void fixedPriority_notify(OS_mutex_t * const reason){
-	OS_TCB_t *current_TCB = OS_currentTCB();
-	OS_TCB_t *current_task = reason->list->tail;
-	while(current_task != 0){
-		if(current_TCB == current_task){
-			priority_list_t *current_list = &priority[current_TCB->priority];
-			current_TCB->data = 0;
-			
-			//fixedPriority_addTask(current_task);
-//			fixedPriority_taskExit(test);
-//			fixedPriority_addTask(current_task);
-//			fixedPriority_addTask(test);
-			current_TCB->next = current_list->tail;
-			current_TCB->prev = current_list->tail->prev;
-			current_list->tail->prev = current_TCB;
-			current_list->tail->prev->next = current_TCB;
-			remove_task_from_list(reason->list,current_TCB);
-			
-			return;
-		}
-		current_task = current_task->prev;
-	}
+static void fixedPriority_notify(priority_list_t * const reason){
+	fixedPriority_addTask(reason->tail);
+  remove_task_from_list(reason, reason->tail);
 }

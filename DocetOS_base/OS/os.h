@@ -25,8 +25,8 @@ typedef struct {
 	OS_TCB_t const * (* scheduler_callback)(void);
 	void (* addtask_callback)(OS_TCB_t * const newTask);
 	void (* taskexit_callback)(OS_TCB_t * const task);
-	void (* wait_callback) (OS_mutex_t * const reason);
-	void (* notify_callback) (OS_mutex_t * const reason);
+	void (* wait_callback) (priority_list_t * const reason);
+	void (* notify_callback) (priority_list_t * const reason);
 } OS_Scheduler_t;
 
 /***************************/
@@ -73,9 +73,9 @@ void __svc(OS_SVC_ADD_TASK) OS_addTask(OS_TCB_t const * const);
 /* SVC delegate to yield the current task */
 void __svc(OS_SVC_YIELD) OS_yield(void);
 /* SVC delegate for wait callback*/
-void __svc(OS_SVC_WAIT) OS_wait(OS_mutex_t const * reason);
+void __svc(OS_SVC_WAIT) OS_wait(priority_list_t const * reason);
 /* SVC delegate for notify callback*/
-void __svc(OS_SVC_NOTIFY) OS_notify(OS_mutex_t const * reason);
+void __svc(OS_SVC_NOTIFY) OS_notify(priority_list_t const * reason);
 
 
 /****************/

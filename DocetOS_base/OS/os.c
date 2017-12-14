@@ -116,11 +116,11 @@ void _svc_OS_addTask(_OS_SVC_StackFrame_t const * const stack) {
 }
 
 void _svc_OS_wait(_OS_SVC_StackFrame_t const * const stack){
-	_scheduler->wait_callback((OS_mutex_t *)stack->r0);
+	_scheduler->wait_callback((priority_list_t *)stack->r0);
 }
 
 void _svc_OS_notify(_OS_SVC_StackFrame_t const * const stack){
-	_scheduler->notify_callback((OS_mutex_t *)stack->r0);
+	_scheduler->notify_callback((priority_list_t *)stack->r0);
 }
 
 /* SVC handler to invoke the scheduler (via a callback) from PendSV */
