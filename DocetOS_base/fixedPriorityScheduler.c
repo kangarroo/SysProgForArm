@@ -20,7 +20,7 @@ static void fixedPriority_notify(priority_list_t * const reason);
 
 
 priority_list_t priority[MAX_PRIORITY] = {0};
-priority_list_t wait_list = {0};
+priority_list_t sleep_list = {0};
 
 OS_Scheduler_t const fixedPriorityScheduler = {
 	.preemptive = 1,
@@ -57,18 +57,30 @@ static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 static OS_TCB_t const * fixedPriority_scheduler(void){
 	OS_currentTCB()->state &= ~TASK_STATE_YIELD; //Clear the task yield state
 	for(int i = 0;i < (MAX_PRIORITY);i++){
+		if(sleep_list.tail->sleep_time <= OS_elapsedTicks()){
+			OS_TCB_t *finished_sleeping = sleep_list.tail;
+			remove_task_from_list(&sleep_list,finished_sleeping);
+		  OS_TCB_t *old_tail = priority[finished_sleeping->priority].tail;
+			priority[finished_sleeping->priority].tail->next = finished_sleeping;
+			finished_sleeping->prev = old_tail;
+			priority[finished_sleeping->priority].tail = finished_sleeping;
+			/*!!!!!!FIX SLEEPING!!!!!!*/
+			//fixedPriority_addTask(finished_sleeping);	
+		}
 		priority_list_t *current_list = &priority[i];
 		if(current_list->tail != 0){
 			OS_TCB_t *next_task = current_list->tail;
 			preemptive_tasks(next_task);	
 			//Checks if sleep bit is set
 			if(next_task->state & TASK_STATE_SLEEP){
-				if(next_task->sleep_time <= OS_elapsedTicks()){
+				//if(next_task->sleep_time <= OS_elapsedTicks()){
 					//If set & time exceeded, clear sleep bit and return TCB, otherwise
 					//return idle tcb
 					next_task->state &= ~TASK_STATE_SLEEP;
-					return next_task;
-				}
+					add_task_to_list(&sleep_list,next_task);
+					fixedPriority_taskExit(next_task);
+					//return next_task;
+				//}
 			} else {
 				return next_task;
 			}

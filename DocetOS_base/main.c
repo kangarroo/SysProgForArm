@@ -9,19 +9,21 @@
 static OS_mutex_t MUTEX = {0};
 
 void task1(void const *const args) {
-	OS_mutex_aquire(&MUTEX);
+	//OS_mutex_aquire(&MUTEX);
 	for (int i = 0; i < 10; ++i) {
+		OS_Sleep(50);
 		printf("A");
 	}
-	OS_mutex_release(&MUTEX);
+	//OS_mutex_release(&MUTEX);
 }
 
 void task2(void const *const args) {
-	OS_mutex_aquire(&MUTEX);
+	//OS_mutex_aquire(&MUTEX);
 	for (int i = 0; i < 10; ++i) {
+		OS_Sleep(100);
 		printf("B");
 	}
-	OS_mutex_release(&MUTEX);
+	//OS_mutex_release(&MUTEX);
 }
 
 void task3(void const *const args) {
