@@ -9,32 +9,32 @@
 static OS_mutex_t MUTEX = {0};
 
 void task1(void const *const args) {
-	//OS_mutex_aquire(&MUTEX);
-	for (int i = 0; i < 100; ++i) {
+	OS_mutex_aquire(&MUTEX);
+	for (int i = 0; i < 10; ++i) {
 		printf("A");
 	}
-	//OS_mutex_release(&MUTEX);
+	OS_mutex_release(&MUTEX);
 }
 
 void task2(void const *const args) {
-	//OS_mutex_aquire(&MUTEX);
-	for (int i = 0; i < 100; ++i) {
+	OS_mutex_aquire(&MUTEX);
+	for (int i = 0; i < 10; ++i) {
 		printf("B");
 	}
-	//OS_mutex_release(&MUTEX);
+	OS_mutex_release(&MUTEX);
 }
 
 void task3(void const *const args) {
-	//OS_mutex_aquire(&MUTEX);
-	for (int i = 0; i < 12; ++i) {
+	OS_mutex_aquire(&MUTEX);
+	for (int i = 0; i < 10; ++i) {
 		printf("C");
 	}
-	//OS_mutex_release(&MUTEX);
+	OS_mutex_release(&MUTEX);
 }
 
 void task4(void const *const args) {
 	OS_mutex_aquire(&MUTEX);
-	for (int i = 0; i < 12; ++i) {
+	for (int i = 0; i < 10; ++i) {
 		printf("D");
 	}
 	OS_mutex_release(&MUTEX);
@@ -83,9 +83,9 @@ int main(void) {
 	OS_addTask(&TCB1);
 	OS_addTask(&TCB2);
 	OS_addTask(&TCB3);
-//	OS_addTask(&TCB4);
-//	OS_addTask(&TCB5);
-//	OS_addTask(&TCB6);
+	OS_addTask(&TCB4);
+	OS_addTask(&TCB5);
+	OS_addTask(&TCB6);
 //	
 	OS_start();
 }

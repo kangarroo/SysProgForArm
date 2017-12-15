@@ -7,6 +7,7 @@
 typedef struct {
 	OS_TCB_t *head;
 	OS_TCB_t *tail;
+	uint32_t counter;
 } priority_list_t;
 
 typedef struct {

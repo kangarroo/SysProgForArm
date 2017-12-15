@@ -91,10 +91,10 @@ The function is called upon creation of a mutex*/
 static void fixedPriority_wait(priority_list_t * const reason){
 	OS_TCB_t *current_TCB = OS_currentTCB();
 	//current_TCB->data = (uint32_t) reason;
-	//fixedPriority_taskExit(current_TCB);
-	remove_task_from_list(&priority[current_TCB->priority],current_TCB);
-	current_TCB->next = 0;
-	current_TCB->prev = 0;
+	fixedPriority_taskExit(current_TCB);
+	//remove_task_from_list(&priority[current_TCB->priority],current_TCB);
+	//current_TCB->next = 0;
+	//current_TCB->prev = 0;
 	add_task_to_list(reason,current_TCB);
 	SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
 }
@@ -104,6 +104,8 @@ static void fixedPriority_wait(priority_list_t * const reason){
 them is freed, they are then added to the scheduler. The function is 
 called once a mutex has been released*/
 static void fixedPriority_notify(priority_list_t * const reason){
-	fixedPriority_addTask(reason->tail);
-  remove_task_from_list(reason, reason->tail);
+	OS_TCB_t *test = reason->tail;
+	remove_task_from_list(reason, test);
+	fixedPriority_addTask(test);
+  
 }

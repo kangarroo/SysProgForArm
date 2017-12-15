@@ -1,6 +1,7 @@
 #include "lists.h"
 
 void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb){
+			current_list->counter++;
 			if(current_list->head == 0){
 			/*If the list is empty, set the head and tail to the new TCB address
 			and set TCB Next and Previous pointers to 0*/
@@ -16,17 +17,18 @@ void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb){
 			tcb->next = current_head;
 			tcb->prev = 0;
 			current_list->head = tcb;
-		}
+  		}
 }
 
 void remove_task_from_list (priority_list_t *current_list, OS_TCB_t * const tcb){
+	current_list->counter--;
 	OS_TCB_t *current_task = current_list->tail;
 	
 	if(current_list->head == current_list->tail){
 		//If the list only has one object, the head and tail pointers should be set
 		//to 0, it should be noted that this doesn't free the memory used by the system...
 		if(current_list->tail == tcb){
-			current_list->head = 0; //
+			current_list->head = 0;
 			current_list->tail = 0;
 		}
 	} else {
