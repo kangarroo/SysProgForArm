@@ -20,6 +20,7 @@ static void fixedPriority_notify(priority_list_t * const reason);
 
 
 priority_list_t priority[MAX_PRIORITY] = {0};
+priority_list_t wait_list = {0};
 priority_list_t sleep_list = {0};
 
 OS_Scheduler_t const fixedPriorityScheduler = {
@@ -56,31 +57,38 @@ static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 /*This function works by iterating through the prioirty array*/
 static OS_TCB_t const * fixedPriority_scheduler(void){
 	OS_currentTCB()->state &= ~TASK_STATE_YIELD; //Clear the task yield state
+	
+
+	
 	for(int i = 0;i < (MAX_PRIORITY);i++){
-		if(sleep_list.tail->sleep_time <= OS_elapsedTicks()){
-			OS_TCB_t *finished_sleeping = sleep_list.tail;
-			remove_task_from_list(&sleep_list,finished_sleeping);
-		  OS_TCB_t *old_tail = priority[finished_sleeping->priority].tail;
-			priority[finished_sleeping->priority].tail->next = finished_sleeping;
-			finished_sleeping->prev = old_tail;
-			priority[finished_sleeping->priority].tail = finished_sleeping;
-			/*!!!!!!FIX SLEEPING!!!!!!*/
-			//fixedPriority_addTask(finished_sleeping);	
-		}
+			//Check sleeping tasks
+	if(sleep_list.tail->sleep_time <= OS_elapsedTicks()){
+		OS_TCB_t *task_temp = sleep_list.tail;
+		task_temp->state &= ~TASK_STATE_SLEEP;
+		remove_task_from_list(&sleep_list, task_temp);
+		fixedPriority_addTask(task_temp);
+	}
 		priority_list_t *current_list = &priority[i];
 		if(current_list->tail != 0){
 			OS_TCB_t *next_task = current_list->tail;
 			preemptive_tasks(next_task);	
 			//Checks if sleep bit is set
 			if(next_task->state & TASK_STATE_SLEEP){
-				//if(next_task->sleep_time <= OS_elapsedTicks()){
-					//If set & time exceeded, clear sleep bit and return TCB, otherwise
-					//return idle tcb
-					next_task->state &= ~TASK_STATE_SLEEP;
-					add_task_to_list(&sleep_list,next_task);
-					fixedPriority_taskExit(next_task);
-					//return next_task;
-				//}
+//				if(next_task->sleep_time <= OS_elapsedTicks()){
+//					//If set & time exceeded, clear sleep bit and return TCB, otherwise
+//					//return idle tcb
+//					next_task->state &= ~TASK_STATE_SLEEP;
+//					return next_task;
+//				}
+				OS_TCB_t *new_next_task = next_task->prev;
+				//remove_task_from_list(current_list,next_task);
+				fixedPriority_taskExit(next_task);
+				next_task->next = 0;
+				next_task->prev = 0;
+				add_task_to_sleep_list(&sleep_list,next_task);
+				if(new_next_task != 0){
+					return new_next_task;
+				}
 			} else {
 				return next_task;
 			}
@@ -102,11 +110,7 @@ and then removes it form the schedule, and adds it till the wait list.
 The function is called upon creation of a mutex*/
 static void fixedPriority_wait(priority_list_t * const reason){
 	OS_TCB_t *current_TCB = OS_currentTCB();
-	//current_TCB->data = (uint32_t) reason;
 	fixedPriority_taskExit(current_TCB);
-	//remove_task_from_list(&priority[current_TCB->priority],current_TCB);
-	//current_TCB->next = 0;
-	//current_TCB->prev = 0;
 	add_task_to_list(reason,current_TCB);
 	SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
 }
@@ -116,8 +120,7 @@ static void fixedPriority_wait(priority_list_t * const reason){
 them is freed, they are then added to the scheduler. The function is 
 called once a mutex has been released*/
 static void fixedPriority_notify(priority_list_t * const reason){
-	OS_TCB_t *test = reason->tail;
-	remove_task_from_list(reason, test);
-	fixedPriority_addTask(test);
-  
+	OS_TCB_t *task_temp = reason->tail;
+	remove_task_from_list(reason, task_temp);
+	fixedPriority_addTask(task_temp);
 }

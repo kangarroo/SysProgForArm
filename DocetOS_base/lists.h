@@ -18,5 +18,6 @@ typedef struct {
 
 void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb);
 void remove_task_from_list (priority_list_t *current_list, OS_TCB_t * const tcb);
+void add_task_to_sleep_list (priority_list_t *current_list,OS_TCB_t * const tcb);
 
 #endif /*_LISTS_H_*/
