@@ -2,7 +2,7 @@
 #include "os_internal.h"
 #include <stdio.h>
 void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb){
-	current_list->counter++;
+	
 	if(current_list->head == 0){
 	/*If the list is empty, set the head and tail to the new TCB address
 	and set TCB Next and Previous pointers to 0*/
@@ -19,14 +19,14 @@ void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb){
 	tcb->prev = 0;
 	current_list->head = tcb;
 	}
+	//Iterate the list counter
+	current_list->counter++;
 }
 
 void add_task_to_sleep_list (priority_list_t *current_list,OS_TCB_t * const tcb){
-	current_list->counter++;
-	uint32_t tcb_sleep = 0;
-	uint32_t task_sleep = 0;
+	//printf("TEST\r\n");
+	
 	if(current_list->head == 0){
-		//printf("4\r\n");
 		/*If the list is empty, set the head and tail to the new TCB address
 		and set TCB Next and Previous pointers to 0*/
 		tcb->next = 0;
@@ -34,37 +34,49 @@ void add_task_to_sleep_list (priority_list_t *current_list,OS_TCB_t * const tcb)
 		current_list->head = tcb;
 		current_list->tail = tcb;
 	} else {
-		OS_TCB_t *current_task = current_list->head;
-		while(current_task->next != 0){
-			tcb_sleep = tcb->sleep_time - OS_elapsedTicks();
-			task_sleep = current_task->sleep_time;
-			printf("Current Sleep Time: %d, TCB Sleep Time %d\r\n",task_sleep,tcb_sleep);
-			if(tcb_sleep <= task_sleep){
-				//printf("1\r\n");
-				tcb->prev = current_task;
-				tcb->next = current_task->next;
-				current_task->next->prev = tcb;
-				current_task->next = tcb;
-				if(tcb->prev == 0){
-					current_list->head = tcb;
+		OS_TCB_t *current_task = current_list->tail;
+		while(current_task->prev != 0){
+			//Compare the wake times of the task to add and those already in the list
+		  //if the sleep time is lower than the current one being checked, add new
+			//task before it.
+			if(tcb->sleep_time<=current_task->sleep_time){
+				if(current_task == current_list->tail){
+					//If the current task is the tail
+					tcb->next =0;
+					tcb->prev = current_list->tail;
+					current_list->tail = tcb;
+					return;
+				} else {
+					//If the current task is between other tasks add the task infront of
+					//the current task
+					tcb->next = current_task;
+					tcb->prev = current_task->prev;
+					current_task->prev = tcb;
+					current_task->prev->next = tcb;
+					
+					return;
 				}
-				return;
 			}
-			//printf("2\r\n");
-			current_task = current_task->next;
+			current_task = current_task->prev;
 		}
-		//printf("3\r\n");
-		//If the task has the lowest time, it becomes the tail
-		OS_TCB_t *tail = current_list->tail;
-		tcb->next = 0;
-		tcb->prev = tail;
-		tail->next = tcb;
-		current_list->tail = tcb;
+		
+		/*If the tasks waiting time is the slowest, make it the head of the list*/
+		OS_TCB_t *current_head = current_list->head;
+		current_head->prev = tcb;
+		tcb->next = current_head;
+		tcb->prev = 0;
+		current_list->head = tcb;
 	}
-}
+		/*If there is already data in the structure, set new tcb as head poinitng*/
+		current_list->counter++;
+		//printf("List size: %d", current_list->counter);
+	}
+	//Iterate the list counter
+	
+
+
 
 void remove_task_from_list (priority_list_t *current_list, OS_TCB_t * const tcb){
-	current_list->counter--;
 	OS_TCB_t *current_task = current_list->tail;
 	
 	if(current_list->head == current_list->tail){
@@ -97,4 +109,6 @@ void remove_task_from_list (priority_list_t *current_list, OS_TCB_t * const tcb)
 				}
 			}
 	}
+	//Decrement the list counter
+	current_list->counter--;
 }

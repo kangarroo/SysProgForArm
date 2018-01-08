@@ -15,7 +15,7 @@ static void fixedPriority_addTask(OS_TCB_t * const tcb);
 static void fixedPriority_taskExit(OS_TCB_t * const tcb);
 static OS_TCB_t const * fixedPriority_scheduler(void);
 static void preemptive_tasks (OS_TCB_t * const tcb);
-static void fixedPriority_wait(priority_list_t * const reason);
+static void fixedPriority_wait(priority_list_t * const reason, uint32_t check_code);
 static void fixedPriority_notify(priority_list_t * const reason);
 
 
@@ -62,7 +62,7 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 	
 	for(int i = 0;i < (MAX_PRIORITY);i++){
 			//Check sleeping tasks
-	if(sleep_list.tail->sleep_time <= OS_elapsedTicks()){
+	if(sleep_list.tail != 0 && sleep_list.tail->sleep_time <= OS_elapsedTicks()){
 		OS_TCB_t *task_temp = sleep_list.tail;
 		task_temp->state &= ~TASK_STATE_SLEEP;
 		remove_task_from_list(&sleep_list, task_temp);
@@ -72,16 +72,9 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 		if(current_list->tail != 0){
 			OS_TCB_t *next_task = current_list->tail;
 			preemptive_tasks(next_task);	
-			//Checks if sleep bit is set
+			//Checks if sleep bit is set			
 			if(next_task->state & TASK_STATE_SLEEP){
-//				if(next_task->sleep_time <= OS_elapsedTicks()){
-//					//If set & time exceeded, clear sleep bit and return TCB, otherwise
-//					//return idle tcb
-//					next_task->state &= ~TASK_STATE_SLEEP;
-//					return next_task;
-//				}
 				OS_TCB_t *new_next_task = next_task->prev;
-				//remove_task_from_list(current_list,next_task);
 				fixedPriority_taskExit(next_task);
 				next_task->next = 0;
 				next_task->prev = 0;
@@ -108,10 +101,12 @@ static void preemptive_tasks (OS_TCB_t * const tcb){
 /*This function sets the reason code as the data field in the TCB
 and then removes it form the schedule, and adds it till the wait list.
 The function is called upon creation of a mutex*/
-static void fixedPriority_wait(priority_list_t * const reason){
+static void fixedPriority_wait(priority_list_t * const reason, uint32_t check_code){
 	OS_TCB_t *current_TCB = OS_currentTCB();
-	fixedPriority_taskExit(current_TCB);
-	add_task_to_list(reason,current_TCB);
+	if(check_code == OS_checkCode()){
+		fixedPriority_taskExit(current_TCB);
+		add_task_to_list(reason,current_TCB);
+	}
 	SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
 }
 
@@ -120,6 +115,7 @@ static void fixedPriority_wait(priority_list_t * const reason){
 them is freed, they are then added to the scheduler. The function is 
 called once a mutex has been released*/
 static void fixedPriority_notify(priority_list_t * const reason){
+	
 	OS_TCB_t *task_temp = reason->tail;
 	remove_task_from_list(reason, task_temp);
 	fixedPriority_addTask(task_temp);

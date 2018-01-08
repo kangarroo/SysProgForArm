@@ -25,7 +25,7 @@ typedef struct {
 	OS_TCB_t const * (* scheduler_callback)(void);
 	void (* addtask_callback)(OS_TCB_t * const newTask);
 	void (* taskexit_callback)(OS_TCB_t * const task);
-	void (* wait_callback) (priority_list_t * const reason);
+	void (* wait_callback) (priority_list_t * const reason, uint32_t check_code);
 	void (* notify_callback) (priority_list_t * const reason);
 } OS_Scheduler_t;
 
@@ -84,6 +84,8 @@ void __svc(OS_SVC_NOTIFY) OS_notify(priority_list_t const * reason);
 
 /* Idle task TCB */
 extern OS_TCB_t const * const OS_idleTCB_p;
+/*Getter for the check code*/
+uint32_t OS_checkCode(void);
 
 #endif /* _OS_H_ */
 

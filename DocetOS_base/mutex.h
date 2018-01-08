@@ -7,7 +7,11 @@
 
 
 /*Container for the Mutex structure*/
-
+typedef struct {
+	OS_TCB_t *task;
+	uint32_t counter;
+	priority_list_t list;
+}OS_mutex_t;
 
 void OS_initialiseMutex(OS_mutex_t *mutex);
 void OS_mutex_aquire(OS_mutex_t *mutex);

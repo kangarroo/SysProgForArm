@@ -9,27 +9,33 @@
 static OS_mutex_t MUTEX = {0};
 
 void task1(void const *const args) {
-	//OS_mutex_aquire(&MUTEX);
+	//OS_Sleep(1);
+	OS_Sleep(1500);
 	for (int i = 0; i < 5; ++i) {
-		OS_Sleep(100);
-		printf("A");
+		//OS_mutex_aquire(&MUTEX);
+		
+		printf("High A\r\n");
+		//OS_mutex_release(&MUTEX);
 	}
-	//OS_mutex_release(&MUTEX);
+ 
 }
 
 void task2(void const *const args) {
-	//OS_mutex_aquire(&MUTEX);
+	
+	OS_Sleep(200);
 	for (int i = 0; i < 5; ++i) {
-		OS_Sleep(200);
-		printf("B");
+		//OS_mutex_aquire(&MUTEX);
+		
+		printf("Medium B\r\n");
+		//OS_mutex_release(&MUTEX);
 	}
-	//OS_mutex_release(&MUTEX);
+	
 }
 
 void task3(void const *const args) {
 	//OS_mutex_aquire(&MUTEX);
-	for (int i = 0; i < 5; ++i) {
-		OS_Sleep(300);
+	OS_Sleep(1);
+	for (int i = 0; i < 5; ++i) {		
 		printf("C");
 	}
 	//OS_mutex_release(&MUTEX);
@@ -37,8 +43,9 @@ void task3(void const *const args) {
 
 void task4(void const *const args) {
 	//OS_mutex_aquire(&MUTEX);
+	OS_Sleep(500);
 	for (int i = 0; i < 5; ++i) {
-		OS_Sleep(400);
+		//OS_Sleep(50);
 		printf("D");
 	}
 	//OS_mutex_release(&MUTEX);
@@ -74,7 +81,7 @@ int main(void) {
 
 	/* Initialise the TCBs using the two functions above */
 	OS_initialiseTCB(&TCB1, stack1+64, task1,NULL, 0);//A
-	OS_initialiseTCB(&TCB2, stack2+64, task2,NULL, 0);//B
+	OS_initialiseTCB(&TCB2, stack2+64, task2,NULL, 1);//B
 	OS_initialiseTCB(&TCB3, stack3+64, task3,NULL, 0);//C
 	OS_initialiseTCB(&TCB4, stack4+64, task4,NULL, 0);//D
 	OS_initialiseTCB(&TCB5, stack5+64, task5,NULL, 1);//E
@@ -88,8 +95,8 @@ int main(void) {
 	OS_addTask(&TCB2);
 	OS_addTask(&TCB3);
 	OS_addTask(&TCB4);
-//	OS_addTask(&TCB5);
-//	OS_addTask(&TCB6);
+	OS_addTask(&TCB5);
+	OS_addTask(&TCB6);
 	
 	OS_start();
 }

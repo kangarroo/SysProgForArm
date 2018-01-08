@@ -26,6 +26,14 @@ OS_TCB_t * OS_currentTCB() {
 	return _currentTCB;
 }
 
+/* GLOBAL: Holds value for the check code*/
+static uint32_t _checkCode = 0;
+
+/*Getter for the check code*/
+uint32_t OS_checkCode(){
+	return _checkCode;
+}
+
 /* Getter for the current time. */
 uint32_t OS_elapsedTicks() {
 	return _ticks;
@@ -115,11 +123,12 @@ void _svc_OS_addTask(_OS_SVC_StackFrame_t const * const stack) {
 	_scheduler->addtask_callback((OS_TCB_t *)stack->r0);
 }
 
-void _svc_OS_wait(_OS_SVC_StackFrame_t const * const stack){
-	_scheduler->wait_callback((priority_list_t *)stack->r0);
+void _svc_OS_wait(_OS_SVC_StackFrame_t const * const stack, uint32_t check_code){
+	_scheduler->wait_callback((priority_list_t *)stack->r0, (uint32_t)stack->r1);
 }
 
 void _svc_OS_notify(_OS_SVC_StackFrame_t const * const stack){
+	_checkCode++;
 	_scheduler->notify_callback((priority_list_t *)stack->r0);
 }
 
