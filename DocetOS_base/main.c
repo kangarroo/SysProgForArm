@@ -10,24 +10,23 @@ static OS_mutex_t MUTEX = {0};
 
 void task1(void const *const args) {
 	//OS_Sleep(1);
-	OS_Sleep(1500);
-	for (int i = 0; i < 5; ++i) {
-		//OS_mutex_aquire(&MUTEX);
-		
-		printf("High A\r\n");
-		//OS_mutex_release(&MUTEX);
+	//OS_Sleep(1500);
+	for (int i = 0; i < 200; ++i) {
+		OS_mutex_aquire(&MUTEX);
+		printf("a");
+		OS_mutex_release(&MUTEX);
 	}
  
 }
 
 void task2(void const *const args) {
 	
-	OS_Sleep(200);
-	for (int i = 0; i < 5; ++i) {
-		//OS_mutex_aquire(&MUTEX);
+	//OS_Sleep(200);
+	for (int i = 0; i < 200; ++i) {
+		OS_mutex_aquire(&MUTEX);
 		
-		printf("Medium B\r\n");
-		//OS_mutex_release(&MUTEX);
+		printf("b");
+		OS_mutex_release(&MUTEX);
 	}
 	
 }
@@ -93,10 +92,10 @@ int main(void) {
 	OS_init(&fixedPriorityScheduler);
 	OS_addTask(&TCB1);
 	OS_addTask(&TCB2);
-	OS_addTask(&TCB3);
-	OS_addTask(&TCB4);
-	OS_addTask(&TCB5);
-	OS_addTask(&TCB6);
+//	OS_addTask(&TCB3);
+//	OS_addTask(&TCB4);
+//	OS_addTask(&TCB5);
+//	OS_addTask(&TCB6);
 	
 	OS_start();
 }

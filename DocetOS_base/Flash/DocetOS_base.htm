@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Flash\DocetOS_base.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Flash\DocetOS_base.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Mon Jan 08 17:56:24 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Tue Jan 09 19:52:07 2018
 <BR><P>
 <H3>Maximum Stack Usage =        192 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -16,7 +16,7 @@ Functions with no stack information
  <LI><a href="#[9]">SVC_Handler</a>
  <LI><a href="#[b]">PendSV_Handler</a>
  <LI><a href="#[d6]">_task_switch</a>
- <LI><a href="#[9a]">_task_init_switch</a>
+ <LI><a href="#[9c]">_task_init_switch</a>
 </UL>
 </UL>
 <P>
@@ -126,7 +126,7 @@ Function Pointers
  <LI><a href="#[8]">UsageFault_Handler</a> from startup_stm32f407xx.o(.text) referenced from startup_stm32f407xx.o(RESET)
  <LI><a href="#[d]">WWDG_IRQHandler</a> from startup_stm32f407xx.o(.text) referenced from startup_stm32f407xx.o(RESET)
  <LI><a href="#[69]">_OS_scheduler</a> from os.o(.text) referenced from os_asm.o(OS_func)
- <LI><a href="#[9c]">_OS_task_end</a> from os.o(.text) referenced from os.o(.text)
+ <LI><a href="#[9e]">_OS_task_end</a> from os.o(.text) referenced from os.o(.text)
  <LI><a href="#[6f]">__main</a> from __main.o(!!!main) referenced from startup_stm32f407xx.o(.text)
  <LI><a href="#[61]">_printf_input_char</a> from _printf_char_common.o(.text) referenced from _printf_char_common.o(.text)
  <LI><a href="#[63]">_svc_OS_addTask</a> from os.o(.text) referenced from os_asm.o(OS_func)
@@ -143,11 +143,11 @@ Function Pointers
  <LI><a href="#[6d]">fixedPriority_wait</a> from fixedpriorityscheduler.o(.text) referenced from fixedpriorityscheduler.o(.constdata)
  <LI><a href="#[60]">fputc</a> from retarget.o(.text) referenced from _printf_char_file.o(.text)
  <LI><a href="#[87]">task1</a> from main.o(.text) referenced from main.o(.text)
- <LI><a href="#[8a]">task2</a> from main.o(.text) referenced from main.o(.text)
- <LI><a href="#[8b]">task3</a> from main.o(.text) referenced from main.o(.text)
- <LI><a href="#[8c]">task4</a> from main.o(.text) referenced from main.o(.text)
- <LI><a href="#[8d]">task5</a> from main.o(.text) referenced from main.o(.text)
- <LI><a href="#[8e]">task6</a> from main.o(.text) referenced from main.o(.text)
+ <LI><a href="#[8b]">task2</a> from main.o(.text) referenced from main.o(.text)
+ <LI><a href="#[8c]">task3</a> from main.o(.text) referenced from main.o(.text)
+ <LI><a href="#[8e]">task4</a> from main.o(.text) referenced from main.o(.text)
+ <LI><a href="#[8f]">task5</a> from main.o(.text) referenced from main.o(.text)
+ <LI><a href="#[90]">task6</a> from main.o(.text) referenced from main.o(.text)
 </UL>
 <P>
 <H3>
@@ -327,81 +327,83 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[87]"></a>task1</STRONG> (Thumb, 30 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[87]"></a>task1</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = task1 &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_mutex_release
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_mutex_aquire
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[8a]"></a>task2</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[8b]"></a>task2</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = task2 &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_mutex_release
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_mutex_aquire
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[8b]"></a>task3</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[8c]"></a>task3</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = task3 &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[8c]"></a>task4</STRONG> (Thumb, 30 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[8e]"></a>task4</STRONG> (Thumb, 30 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = task4 &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[8d]"></a>task5</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[8f]"></a>task5</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = task5 &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[8e]"></a>task6</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[90]"></a>task6</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = task6 &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[7b]"></a>main</STRONG> (Thumb, 164 bytes, Stack size 8 bytes, main.o(.text))
+<P><STRONG><a name="[7b]"></a>main</STRONG> (Thumb, 148 bytes, Stack size 8 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136 + Unknown Stack Size
 <LI>Call Chain = main &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_start
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_initialiseTCB
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_initialiseMutex
-<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_init
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_start
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_initialiseTCB
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_initialiseMutex
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_init
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;serial_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[96]"></a>OS_currentTCB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_mutex_release
-<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_mutex_aquire
-<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_wait
+<P><STRONG><a name="[98]"></a>OS_currentTCB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_wait
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_mutex_release
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_mutex_aquire
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
 </UL>
 
-<P><STRONG><a name="[99]"></a>OS_checkCode</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
+<P><STRONG><a name="[9b]"></a>OS_checkCode</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_wait
 </UL>
 
-<P><STRONG><a name="[97]"></a>OS_elapsedTicks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
+<P><STRONG><a name="[99]"></a>OS_elapsedTicks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sleep
 </UL>
 
 <P><STRONG><a name="[c]"></a>SysTick_Handler</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, os.o(.text))
@@ -413,26 +415,26 @@ Global Symbols
 <P><STRONG><a name="[66]"></a>_svc_OS_schedule</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, os.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> os_asm.o(OS_func)
 </UL>
-<P><STRONG><a name="[91]"></a>OS_init</STRONG> (Thumb, 92 bytes, Stack size 0 bytes, os.o(.text))
+<P><STRONG><a name="[93]"></a>OS_init</STRONG> (Thumb, 92 bytes, Stack size 0 bytes, os.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[92]"></a>OS_start</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, os.o(.text))
+<P><STRONG><a name="[94]"></a>OS_start</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, os.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = OS_start
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_task_init_switch
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_task_init_switch
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9c]"></a>_OS_task_end</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, os.o(.text))
+<P><STRONG><a name="[9e]"></a>_OS_task_end</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, os.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> os.o(.text)
 </UL>
-<P><STRONG><a name="[8f]"></a>OS_initialiseTCB</STRONG> (Thumb, 70 bytes, Stack size 32 bytes, os.o(.text))
+<P><STRONG><a name="[91]"></a>OS_initialiseTCB</STRONG> (Thumb, 70 bytes, Stack size 32 bytes, os.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = OS_initialiseTCB &rArr; __aeabi_memclr4
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -440,8 +442,8 @@ Global Symbols
 <P><STRONG><a name="[62]"></a>_svc_OS_enable_systick</STRONG> (Thumb, 80 bytes, Stack size 8 bytes, os.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = _svc_OS_enable_systick &rArr; SystemCoreClockUpdate
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
-<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
+<BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
+<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SetPriority
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> os_asm.o(OS_func)
 </UL>
@@ -478,42 +480,50 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_Handler
 </UL>
 
-<P><STRONG><a name="[90]"></a>OS_initialiseMutex</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, mutex.o(.text))
+<P><STRONG><a name="[92]"></a>OS_initialiseMutex</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, mutex.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9f]"></a>OS_mutex_aquire</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, mutex.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
+<P><STRONG><a name="[88]"></a>OS_mutex_aquire</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, mutex.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = OS_mutex_aquire
 </UL>
-
-<P><STRONG><a name="[a0]"></a>OS_mutex_release</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, mutex.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
+<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
 </UL>
-
-<P><STRONG><a name="[88]"></a>OS_Sleep</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, sleep.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = OS_Sleep
-</UL>
-<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_elapsedTicks
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
-</UL>
-<BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task4
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task3
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task2
+<BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task2
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1
 </UL>
 
-<P><STRONG><a name="[93]"></a>add_task_to_list</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, lists.o(.text))
+<P><STRONG><a name="[8a]"></a>OS_mutex_release</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, mutex.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = OS_mutex_release
+</UL>
+<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
+</UL>
+<BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task2
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1
+</UL>
+
+<P><STRONG><a name="[8d]"></a>OS_Sleep</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, sleep.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = OS_Sleep
+</UL>
+<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_elapsedTicks
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
+</UL>
+<BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task4
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task3
+</UL>
+
+<P><STRONG><a name="[95]"></a>add_task_to_list</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, lists.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_wait
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_addTask
 </UL>
 
-<P><STRONG><a name="[98]"></a>add_task_to_sleep_list</STRONG> (Thumb, 92 bytes, Stack size 12 bytes, lists.o(.text))
+<P><STRONG><a name="[9a]"></a>add_task_to_sleep_list</STRONG> (Thumb, 92 bytes, Stack size 12 bytes, lists.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = add_task_to_sleep_list
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
 </UL>
 
-<P><STRONG><a name="[94]"></a>remove_task_from_list</STRONG> (Thumb, 102 bytes, Stack size 8 bytes, lists.o(.text))
+<P><STRONG><a name="[96]"></a>remove_task_from_list</STRONG> (Thumb, 102 bytes, Stack size 8 bytes, lists.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = remove_task_from_list
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_notify
@@ -810,7 +820,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[9d]"></a>SystemCoreClockUpdate</STRONG> (Thumb, 170 bytes, Stack size 16 bytes, system_stm32f4xx.o(.text))
+<P><STRONG><a name="[9f]"></a>SystemCoreClockUpdate</STRONG> (Thumb, 170 bytes, Stack size 16 bytes, system_stm32f4xx.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = SystemCoreClockUpdate
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
@@ -843,18 +853,18 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_HandlerC
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task6
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task5
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task4
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task3
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task2
+<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task6
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task5
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task4
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task3
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task2
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1
 </UL>
 
-<P><STRONG><a name="[9b]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text))
+<P><STRONG><a name="[9d]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = __aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_initialiseTCB
+<BR>[Called By]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_initialiseTCB
 </UL>
 
 <P><STRONG><a name="[ce]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
@@ -927,8 +937,8 @@ Global Symbols
 </UL>
 <P><STRONG><a name="[d6]"></a>_task_switch</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, os_asm.o(OS_func), UNUSED)
 
-<P><STRONG><a name="[9a]"></a>_task_init_switch</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, os_asm.o(OS_func))
-<BR><BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_start
+<P><STRONG><a name="[9c]"></a>_task_init_switch</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, os_asm.o(OS_func))
+<BR><BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_start
 </UL>
 
 <P><STRONG><a name="[75]"></a>_fp_init</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fpinit.o(x$fpl$fpinit))
@@ -953,26 +963,26 @@ Local Symbols
 <P><STRONG><a name="[6b]"></a>fixedPriority_addTask</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, fixedpriorityscheduler.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = fixedPriority_addTask
 </UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_task_to_list
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_task_to_list
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_notify
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
 <P><STRONG><a name="[6c]"></a>fixedPriority_taskExit</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, fixedpriorityscheduler.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = fixedPriority_taskExit &rArr; remove_task_from_list
 </UL>
-<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_task_from_list
+<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_task_from_list
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_wait
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_scheduler
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
-<P><STRONG><a name="[95]"></a>preemptive_tasks</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, fixedpriorityscheduler.o(.text))
+<P><STRONG><a name="[97]"></a>preemptive_tasks</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, fixedpriorityscheduler.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = preemptive_tasks &rArr; fixedPriority_taskExit &rArr; remove_task_from_list
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_taskExit
@@ -984,35 +994,35 @@ Local Symbols
 <P><STRONG><a name="[6a]"></a>fixedPriority_scheduler</STRONG> (Thumb, 150 bytes, Stack size 24 bytes, fixedpriorityscheduler.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = fixedPriority_scheduler &rArr; preemptive_tasks &rArr; fixedPriority_taskExit &rArr; remove_task_from_list
 </UL>
-<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_task_from_list
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_task_to_sleep_list
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_elapsedTicks
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
+<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_task_from_list
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_task_to_sleep_list
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_elapsedTicks
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;preemptive_tasks
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_taskExit
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_addTask
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
 <P><STRONG><a name="[6d]"></a>fixedPriority_wait</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, fixedpriorityscheduler.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = fixedPriority_wait &rArr; fixedPriority_taskExit &rArr; remove_task_from_list
 </UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_task_to_list
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_checkCode
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_task_to_list
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_checkCode
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_taskExit
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_currentTCB
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
 <P><STRONG><a name="[6e]"></a>fixedPriority_notify</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, fixedpriorityscheduler.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = fixedPriority_notify &rArr; fixedPriority_addTask
 </UL>
-<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_task_from_list
+<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_task_from_list
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixedPriority_addTask
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fixedpriorityscheduler.o(.constdata)
 </UL>
-<P><STRONG><a name="[9e]"></a>__NVIC_SetPriority</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, os.o(.text))
+<P><STRONG><a name="[a0]"></a>__NVIC_SetPriority</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, os.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __NVIC_SetPriority
 </UL>
 <BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_svc_OS_enable_systick
@@ -1021,7 +1031,7 @@ Local Symbols
 <P><STRONG><a name="[a1]"></a>SetSysClock</STRONG> (Thumb, 224 bytes, Stack size 12 bytes, system_stm32f4xx.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = SetSysClock &rArr; SystemCoreClockUpdate
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
+<BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
 </UL>

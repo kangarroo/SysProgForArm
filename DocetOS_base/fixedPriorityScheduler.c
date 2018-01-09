@@ -20,7 +20,7 @@ static void fixedPriority_notify(priority_list_t * const reason);
 
 
 priority_list_t priority[MAX_PRIORITY] = {0};
-priority_list_t wait_list = {0};
+//priority_list_t wait_list = {0};
 priority_list_t sleep_list = {0};
 
 OS_Scheduler_t const fixedPriorityScheduler = {
@@ -99,7 +99,7 @@ static void preemptive_tasks (OS_TCB_t * const tcb){
 
 /*Wait Callback*/
 /*This function sets the reason code as the data field in the TCB
-and then removes it form the schedule, and adds it till the wait list.
+and then removes it form the schedule, and adds it to the wait list.
 The function is called upon creation of a mutex*/
 static void fixedPriority_wait(priority_list_t * const reason, uint32_t check_code){
 	OS_TCB_t *current_TCB = OS_currentTCB();
@@ -114,8 +114,7 @@ static void fixedPriority_wait(priority_list_t * const reason, uint32_t check_co
 /*This function removes tasks from the wait list once the mutex on
 them is freed, they are then added to the scheduler. The function is 
 called once a mutex has been released*/
-static void fixedPriority_notify(priority_list_t * const reason){
-	
+static void fixedPriority_notify(priority_list_t * const reason){	
 	OS_TCB_t *task_temp = reason->tail;
 	remove_task_from_list(reason, task_temp);
 	fixedPriority_addTask(task_temp);
