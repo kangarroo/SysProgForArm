@@ -21,7 +21,7 @@ void OS_mutex_aquire(OS_mutex_t *mutex){
 		
 	}
 		mutex->counter++;
-		OS_yield();
+		//OS_yield();
 }
 
 void OS_mutex_release(OS_mutex_t *mutex){
