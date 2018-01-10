@@ -12,8 +12,8 @@ static OS_countingSemaphore_t countSem= {0};
 
 void task1(void const *const args) {
 	//OS_Sleep(1);
-	//OS_Sleep(1500);
-	OS_countingSemaphore_wait(&countSem);
+	OS_Sleep(1500);
+	//OS_countingSemaphore_wait(&countSem);
 	for (int i = 0; i < 50; ++i) {
 		//OS_mutex_aquire(&MUTEX);
 		printf("a");

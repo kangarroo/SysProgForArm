@@ -39,7 +39,7 @@ void add_task_to_sleep_list (priority_list_t *current_list,OS_TCB_t * const tcb)
 			//Compare the wake times of the task to add and those already in the list
 		  //if the sleep time is lower than the current one being checked, add new
 			//task before it.
-			if(tcb->sleep_time<=current_task->sleep_time){
+			if(tcb->wake_time<=current_task->wake_time){
 				if(current_task == current_list->tail){
 					//If the current task is the tail
 					tcb->next =0;

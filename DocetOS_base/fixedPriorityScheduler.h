@@ -3,8 +3,8 @@
 
 #include "os.h"
 
-#define MAX_PRIORITY 3
+#define MAX_PRIORITY 3 //Maximum number of priority levels
 
-extern OS_Scheduler_t const fixedPriorityScheduler;
+extern OS_Scheduler_t const fixedPriorityScheduler; 
 
 #endif /*_FIXED_PRIORITY_SCHEDULER_H_*/

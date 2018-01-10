@@ -401,11 +401,6 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>simpleRoundRobin.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\simpleRoundRobin.c</FilePath>
-            </File>
-            <File>
               <FileName>fixedPriorityScheduler.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\fixedPriorityScheduler.c</FilePath>
@@ -459,11 +454,6 @@
               <FileName>semaphore.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\semaphore.c</FilePath>
-            </File>
-            <File>
-              <FileName>semaphore.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\semaphore.h</FilePath>
             </File>
           </Files>
         </Group>

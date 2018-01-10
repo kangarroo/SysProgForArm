@@ -81,7 +81,7 @@ void OS_initialiseTCB(OS_TCB_t * TCB, uint32_t * const stack, void (* const func
 	TCB->sp = stack - (sizeof(OS_StackFrame_t) / sizeof(uint32_t));
 	TCB->state = TCB->data= 0;
 	TCB->next = TCB->prev = 0;
-	TCB->sleep_time = 0;
+	TCB->wake_time = 0;
 	TCB->priority = priority;
 	OS_StackFrame_t *sf = (OS_StackFrame_t *)(TCB->sp);
 	memset(sf, 0, sizeof(OS_StackFrame_t));
@@ -123,11 +123,16 @@ void _svc_OS_addTask(_OS_SVC_StackFrame_t const * const stack) {
 	_scheduler->addtask_callback((OS_TCB_t *)stack->r0);
 }
 
+/* SVC Handler for task wait, invokes the wait callback. */
 void _svc_OS_wait(_OS_SVC_StackFrame_t const * const stack, uint32_t check_code){
+	/*The mutex/semaphore's wait list is on the stack at r0, as it has been passed as 
+	the function's argument. R1 holds the mutex/semaphore checkcode*/
 	_scheduler->wait_callback((priority_list_t *)stack->r0, (uint32_t)stack->r1);
 }
 
+/* SVC Handler for Task Notify, invokes the notify callback*/
 void _svc_OS_notify(_OS_SVC_StackFrame_t const * const stack){
+	/* The checkcode is incremented, and the mutex/semaphore wait list is stored at r0*/
 	_checkCode++;
 	_scheduler->notify_callback((priority_list_t *)stack->r0);
 }

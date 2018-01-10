@@ -5,13 +5,16 @@
 #include <stdint.h>
 #include "lists.h"
 
+/*Container for the Binary semaphore type*/
 typedef struct{
 	uint32_t taken;
 	priority_list_t queue;
 } OS_binarySemaphore_t;
 
+/*Container for the Counitng sempahore type*/
 typedef struct{
 	uint32_t counter;
+	uint32_t counter_max;
 	priority_list_t queue;
 } OS_countingSemaphore_t;
 

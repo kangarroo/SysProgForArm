@@ -43,7 +43,7 @@ typedef struct OS_TCB_t{
 	struct OS_TCB_t *next; //Container for the next task
 	struct OS_TCB_t *prev; //Container for the previous task
 	
-	uint32_t sleep_time;
+	uint32_t wake_time; //
 } OS_TCB_t;
 
 /* Constants that define bits in a thread's 'state' field. */
