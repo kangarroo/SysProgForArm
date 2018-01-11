@@ -1,7 +1,8 @@
 #ifndef _MUTEX_H_
 #define _MUTEX_H_
 
-#include "os_internal.h"
+#include "stm32f4xx.h"
+#include "os.h"
 #include <stdint.h>
 #include "lists.h"
 

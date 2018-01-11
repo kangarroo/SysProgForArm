@@ -1,6 +1,10 @@
 #include "lists.h"
 #include "os_internal.h"
+#include "task.h"
 #include <stdio.h>
+
+/*Add Task to list
+This funciton adds a TCB to any inputted task list*/
 void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb){
 	
 	if(current_list->head == 0){
@@ -23,9 +27,10 @@ void add_task_to_list (priority_list_t *current_list, OS_TCB_t * const tcb){
 	current_list->counter++;
 }
 
-void add_task_to_sleep_list (priority_list_t *current_list,OS_TCB_t * const tcb){
-	//printf("TEST\r\n");
-	
+/*Add task to sleep list
+This function is mainly the same as the add task to list function, however
+it performs a insertion sort based on the wake time for the sleeping task*/
+void add_task_to_sleep_list (priority_list_t *current_list,OS_TCB_t * const tcb){	
 	if(current_list->head == 0){
 		/*If the list is empty, set the head and tail to the new TCB address
 		and set TCB Next and Previous pointers to 0*/
@@ -67,15 +72,15 @@ void add_task_to_sleep_list (priority_list_t *current_list,OS_TCB_t * const tcb)
 		tcb->prev = 0;
 		current_list->head = tcb;
 	}
-		/*If there is already data in the structure, set new tcb as head poinitng*/
+		//Iterate the list counter
 		current_list->counter++;
-		//printf("List size: %d", current_list->counter);
 	}
-	//Iterate the list counter
+
 	
 
 
-
+/*Remove task from List
+	This funciton removes a given TCB from a given list.*/
 void remove_task_from_list (priority_list_t *current_list, OS_TCB_t * const tcb){
 	OS_TCB_t *current_task = current_list->tail;
 	
