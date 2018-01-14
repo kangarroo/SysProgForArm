@@ -18,7 +18,7 @@ priority_list_t priority[MAX_PRIORITY] = {0};//Array of task lists
 priority_list_t sleep_list = {0};//List of sleeping tasks
 
 /*Schedular callback structure
-This links the schedular functions to the schedular function
+This links the schedular functions to the scheduler function
 callbacks.*/
 OS_Scheduler_t const fixedPriorityScheduler = {
 	.preemptive = 1,
@@ -86,7 +86,7 @@ static OS_TCB_t const * fixedPriority_scheduler(void){
 }
 
 /*Fixed Priority task sleep
-This function removes tasks from the schedular list and adds them to the sleep list,
+This function removes tasks from the scheduler list and adds them to the sleep list,
 it also returns the pointer to the next task to be run (the task previous to the sleeping task)*/
 static OS_TCB_t* fixedPriority_taskSleep (OS_TCB_t * const sleeping_task){
 	OS_TCB_t *task_to_run = sleeping_task->prev;
@@ -99,7 +99,7 @@ static OS_TCB_t* fixedPriority_taskSleep (OS_TCB_t * const sleeping_task){
 /*Fixed Priority check sleep list
 This function checks if the tail of the sleep list has woken up (since the sleep list is time sorted),
 if the task is no longer sleeping, the task is removed of the sleep list, has its sleep flag cleared and
-is added to the schedular lst.*/
+is added to the scheduler lst.*/
 static void fixedPriority_checkSleepList(void){
 	if(sleep_list.tail != 0 && sleep_list.tail->wake_time <= OS_elapsedTicks()){
 		OS_TCB_t *task_temp = sleep_list.tail;
