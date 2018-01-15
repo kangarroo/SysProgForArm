@@ -74,7 +74,6 @@ void scheduler_demo(void const *const args) {
 	OS_addTask(&tL1);
 	OS_addTask(&tL2);
 	
-	
 }
 
 /*Mutex Demo
@@ -369,9 +368,9 @@ void scheduler_intro(void const * const args) {
 void mutex_intro(void const * const args) {
 	OS_binarySemaphore_take(&DEMO_SEMAPHORE);
 	printf("\r\n\r\nMutex Demo\r\n");
-	printf("This demonstrates the use of mutexes. The input to the scheduler"
-	"is the same as during the scheduler demo,\r\nhowever this time the tasks are mutexed."
-	"If run successfully the tasks should print in priority order in\r\nseparate blocks"
+	printf("This demonstrates the use of mutexes. The input to the scheduler "
+	"is the same as during the scheduler demo,\r\nhowever this time the tasks are mutexed. "
+	"If run successfully the tasks should print in priority order in\r\nseparate blocks "
 	"with once again 1 & 2 being Top priority, 3 & 4 being middle priority and 5 & 6 being low priority.\r\n\r\n");
 	OS_binarySemaphore_release(&DEMO_SEMAPHORE);
 }
@@ -379,7 +378,7 @@ void mutex_intro(void const * const args) {
 void sleep_intro(void const * const args) {
 	OS_binarySemaphore_take(&DEMO_SEMAPHORE);
 	printf("\r\n\r\nSleep Demo\r\n");
-	printf("This demonstrates the use of sleep. The input to the scheduler"
+	printf("This demonstrates the use of sleep. The input to the scheduler "
 	"is the same as during the scheduler demo, however\r\nthis time the tasks have an added sleep. "
 	"The tasks have been set up, so the High priority tasks 1 & 2 have the\r\nlongest waits, and "
 	"the lowest priority tasks have the shortest time. The medium priority tasks both wake "

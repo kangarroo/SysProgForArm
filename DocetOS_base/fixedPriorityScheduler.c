@@ -17,8 +17,8 @@ static void fixedPriority_checkSleepList(void);
 priority_list_t priority[MAX_PRIORITY] = {0};//Array of task lists
 priority_list_t sleep_list = {0};//List of sleeping tasks
 
-/*Schedular callback structure
-This links the schedular functions to the scheduler function
+/*Scheduler callback structure
+This links the scheduler functions to the scheduler function
 callbacks.*/
 OS_Scheduler_t const fixedPriorityScheduler = {
 	.preemptive = 1,
@@ -50,7 +50,8 @@ static void fixedPriority_taskExit(OS_TCB_t * const tcb){
 
 
 /*Fixed Priority Scheduler
-This task maintains the schedular task lists.*/
+This task maintains the scheduler task lists. And tells the processor which
+task to run*/
 
 static OS_TCB_t const * fixedPriority_scheduler(void){
 	OS_currentTCB()->state &= ~TASK_STATE_YIELD; //Clear the task yield state

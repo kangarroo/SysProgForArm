@@ -9,8 +9,8 @@ void OS_initialiseMutex(OS_mutex_t *mutex){
 	mutex->list.tail = 0;
 }
 
-/*OS Mutex Aquire
-This function allows a task to aquire the mutex. If the task is successful in
+/*OS Mutex Acquire
+This function allows a task to acquire the mutex. If the task is successful in
 aquireing the mutex, it is set as the task field in the mutex and meaning no other
 task can take the mutex until that task frees it. If a task is not successful in
 aquiring the mutex, the task is added to the mutex's wait queue using OS_Wait*/
@@ -30,7 +30,6 @@ void OS_mutex_aquire(OS_mutex_t *mutex){
 		
 	}
 		mutex->counter++;
-		//OS_yield();
 }
 
 /*OS Mutex Release
@@ -43,7 +42,7 @@ void OS_mutex_release(OS_mutex_t *mutex){
 	OS_TCB_t *current_TCB = OS_currentTCB();
 	if(mutex->task == current_TCB){ //Check if stored task maches current task
 		mutex->counter--;
-		if(mutex->counter == 0){
+		if(mutex->counter == 0){ //Check that Mutex has been freed
 			mutex->task = 0;
 			OS_notify(&mutex->list);//Free Task from Mutex wait list
 		}

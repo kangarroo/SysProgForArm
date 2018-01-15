@@ -19,13 +19,17 @@ int main(void) {
 	/* Reserve memory for two stacks and two TCBs.
 	   Remember that stacks must be 8-byte aligned. */
 	__align(8)
+	//Stacks for the demo tasks
 	static uint32_t stack1[64],stack2[64],stack3[64],stack4[64],stack5[64],stack6[64],
 									stack7[64],stack8[64],stack9[64],stack10[64];
+	//Demo task TCBs
 	static OS_TCB_t scheduler_demo_TCB, mutex_demo_TCB, sleep_demo_TCB
 		,binSem_demo_TCB,countSem_demo_TCB,end_TCB,scheduler_intro_TCB,
 		mutex_intro_TCB, sleep_intro_TCB, semaphore_intro_TCB;
 	
-		
+	/*Initialise the demo binary semaphore*/	
+	/*This semaphore is needed to syncronise timings of
+	the OS demo*/
 	OS_binarySemaphore_init(&DEMO_SEMAPHORE);
 	
 	/* Initialise the TCBs using the two functions above */
@@ -45,6 +49,7 @@ int main(void) {
 	/* Initialise and start the OS */
 	OS_init(&fixedPriorityScheduler);
 	
+	/*Add demo to scheduler*/
 	OS_addTask(&scheduler_intro_TCB);
 	OS_addTask(&scheduler_demo_TCB);
 	OS_addTask(&mutex_intro_TCB);
